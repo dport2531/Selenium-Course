@@ -1,0 +1,115 @@
+
+In this tutorial, you will learn the following:
+
+– Configure Jenkins Job on AWS EC2 Ubuntu Server
+
+– Build Selenium Java Maven project from GitHub
+
+– Setup Chrome Driver and Binary on EC2 Ubuntu Server
+
+– Run Selenium Tests on Chrome Headless Browser
+
+
+Prerequisites:
+
+1. AWS EC2 Ubuntu instance is running and connected via SSH (Follow here)
+
+2. Setup a Jenkins Build Server on AWS EC2. (Follow here)
+Steps to Setup Jenkins on Ubuntu Server:
+
+1. Update all software packages on Ubuntu server.
+
+sudo apt-get update
+sudo apt-get upgrade
+2. Install Java on Ubuntu server.
+
+sudo apt-get install default-jdk
+3. Install Jenkins on Ubuntu server.
+
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+    /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+
+4. Connect to http://<ec2-server-public-dns>:8080 from your  browser. You will be able to access Jenkins through its management interface.
+5. Enter the password found in /var/lib/jenkins/secrets/initialAdminPassword. Use the following command to display this password:
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+6. The Jenkins installation script directs you to the Customize Jenkins page. Click Install suggested plugins.
+
+7. Create a new Admin User and complete the setup.
+
+8. Click Start Using Jenkins.
+
+Steps to install  Maven, Git, Chrome on AWS EC2 Ubuntu Server:
+1. Install latest Chrome Binary on Ubuntu Server
+
+sudo apt-get install -y libappindicator1 fonts-liberation
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome*.deb
+sudo apt-get install -f
+2. Install latest Chrome Driver on Ubuntu Server
+
+sudo apt install unzip
+wget https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+sudo mv chromedriver /usr/bin/chromedriver
+3. Install latest version of Maven on Ubuntu Server
+
+sudo apt install maven
+4. Install latest version of Git on Ubuntu Server
+
+sudo apt install git
+Steps To Configure Java, Maven, Git on Jenkins:
+1. Configure Java on Jenkins
+
+Goto Manage Jenkins -> Global Tool Configuration -> JDK Installations -> Add JDK
+
+Uncheck the option “Install Automatically”
+
+Add a Name – “Default”
+
+Add the below JDK path in JAVA_HOME:
+
+/usr/lib/jvm/java-11-openjdk-amd64
+2. Configure Git on Jenkins
+
+Goto Manage Jenkins -> Global Tool Configuration -> JDK Installations -> Add Git -> Git
+
+Uncheck the option “Install Automatically”
+
+Add a Name – “Default”
+
+Add the below Git path in Path to Git executable:
+
+/usr/lib/git-core/git
+Click on Apply
+3. Configure Maven on Jenkins
+
+Goto Manage Jenkins -> Global Tool Configuration -> Maven Installations -> Add Maven
+
+Uncheck the option “Install Automatically”
+
+Add a Name – “Default”
+
+Add the below Maven path in MAVEN_HOME:
+
+/usr/share/maven
+
+Create Jenkins Job to Run Selenium Tests on AWS EC2 Linux Server:
+1. Click on New Item
+
+2. Select the Freestyle project and Enter an item name
+
+3. Enter some Description for the Job – “Selenium Test”
+4. Select “Git” in the Source Code Management and enter the following Repository URL: https://github.com/<profile-name>/Selenium-Course.git
+
+5. Add Build Step -> Invoke Top level Maven Targets
+6. Enter the following maven command in Goals: clean install
+
+7. Click on Save
+
+8. Go to Dashboard and click on Build Now.
+
+9. View the Console Output to see the Selenium Tests running on Chrome Headless Browser in AWS EC2 Linux Server.
