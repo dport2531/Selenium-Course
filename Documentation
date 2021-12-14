@@ -52,7 +52,8 @@ sudo apt-get install -f
 2. Install latest Chrome Driver on Ubuntu Server
 
 sudo apt install unzip
-wget https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
+# check Google Chrome version and install chromedriver supports that version 
+wget https://chromedriver.storage.googleapis.com/96.0.4664.45/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 sudo mv chromedriver /usr/bin/chromedriver
 3. Install latest version of Maven on Ubuntu Server
